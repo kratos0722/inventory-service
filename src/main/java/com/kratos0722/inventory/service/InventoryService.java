@@ -7,6 +7,8 @@ import com.kratos0722.inventory.repository.ProductRepository;
 import com.kratos0722.inventory.repository.ReservationRepository;
 import java.math.BigDecimal;
 import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,6 +49,11 @@ public class InventoryService {
     @Transactional(readOnly = true)
     public List<Product> listProducts() {
         return products.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public Page<Product> listProducts(Pageable pageable) {
+        return products.findAll(pageable);
     }
 
     @Transactional(readOnly = true)
