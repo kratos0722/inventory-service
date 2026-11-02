@@ -3,10 +3,12 @@ package com.kratos0722.inventory.web;
 import com.kratos0722.inventory.domain.Product;
 import com.kratos0722.inventory.service.InventoryService;
 import com.kratos0722.inventory.web.dto.CreateProductRequest;
+import com.kratos0722.inventory.web.dto.PagedResponse;
 import com.kratos0722.inventory.web.dto.ProductResponse;
 import jakarta.validation.Valid;
 import java.net.URI;
-import java.util.List;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -44,7 +46,7 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<ProductResponse> list() {
-        return service.listProducts().stream().map(ProductResponse::from).toList();
+    public PagedResponse<ProductResponse> list(@PageableDefault(size = 20) Pageable pageable) {
+        return PagedResponse.from(service.listProducts(pageable).map(ProductResponse::from));
     }
 }
